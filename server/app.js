@@ -2,15 +2,17 @@ import express from 'express';
 import { readFile } from 'fs/promises';
 
 // variáveis globais deste módulo
-const PORT = 3000
-const file = await readFile('./server/data/jogadores.json');
-const db = JSON.parse(file.toString());
-console.log(db);
+const PORT = 3000;
+let db = {}
+const app = express();
 
 
 // carregar "banco de dados" (data/jogadores.json e data/jogosPorJogador.json)
 // você pode colocar o conteúdo dos arquivos json no objeto "db" logo abaixo
 // dica: 1-4 linhas de código (você deve usar o módulo de filesystem (fs))
+const file = await readFile('./server/data/jogadores.json');
+db = JSON.parse(file.toString());
+console.log(db);
 
 
 
@@ -19,6 +21,8 @@ console.log(db);
 //app.set('view engine', '???qual-templating-engine???');
 //app.set('views', '???caminho-ate-pasta???');
 // dica: 2 linhas
+app.set('view engine', 'handlebars');
+app.set('views', './server/views');
 
 
 // EXERCÍCIO 2
@@ -26,7 +30,9 @@ console.log(db);
 // dados do banco de dados "data/jogadores.json" com a lista de jogadores
 // dica: o handler desta função é bem simples - basta passar para o template
 //       os dados do arquivo data/jogadores.json (~3 linhas)
-
+app.get('/', (req, res) => {
+  res.render('index.hbs')
+});
 
 
 // EXERCÍCIO 3
@@ -43,9 +49,7 @@ console.log(db);
 
 // abrir servidor na porta 3000 (constante PORT)
 // dica: 1-3 linhas de código
-const app = express();
 app.use(express.static('client'));
-app.set('view engine', 'handlebars');
 
 const port = 3000;
 app.listen(port, console.log('Server listening at port ' + port));
