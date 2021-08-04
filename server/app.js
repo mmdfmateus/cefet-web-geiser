@@ -1,9 +1,11 @@
-// importação de dependência(s)
-
+import express from 'express';
+import { readFile } from 'fs/promises';
 
 // variáveis globais deste módulo
 const PORT = 3000
-const db = {}
+const file = await readFile('./server/data/jogadores.json');
+const db = JSON.parse(file.toString());
+console.log(db);
 
 
 // carregar "banco de dados" (data/jogadores.json e data/jogosPorJogador.json)
@@ -41,3 +43,9 @@ const db = {}
 
 // abrir servidor na porta 3000 (constante PORT)
 // dica: 1-3 linhas de código
+const app = express();
+app.use(express.static('client'));
+app.set('view engine', 'handlebars');
+
+const port = 3000;
+app.listen(port, console.log('Server listening at port ' + port));
