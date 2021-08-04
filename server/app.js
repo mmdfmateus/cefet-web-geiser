@@ -31,7 +31,7 @@ app.set('views', './server/views');
 // dica: o handler desta função é bem simples - basta passar para o template
 //       os dados do arquivo data/jogadores.json (~3 linhas)
 app.get('/', (req, res) => {
-  res.render('index.hbs')
+  res.render('index.hbs', db);
 });
 
 
